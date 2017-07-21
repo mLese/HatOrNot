@@ -1,7 +1,6 @@
 package com.commissionsinc.hatornot.data.source
 
 import com.commissionsinc.hatornot.data.Weather
-import com.commissionsinc.hatornot.data.source.remote.WeatherRemoteDataSource
 import io.reactivex.Observable
 
 class WeatherRepository : WeatherDataSource {
