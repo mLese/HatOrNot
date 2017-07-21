@@ -58,9 +58,11 @@ class WearHatFragment: Fragment(), WearHatContract.View {
         if (enabled) {
             mShouldWearHatButton.isEnabled = false
             mLoadingProgresBar.visibility = View.VISIBLE
+            mShouldWearHatText.visibility = View.GONE
         } else {
             mShouldWearHatButton.isEnabled = true
             mLoadingProgresBar.visibility = View.GONE
+            mShouldWearHatText.visibility = View.VISIBLE
         }
     }
 
