@@ -7,11 +7,11 @@ import com.commissionsinc.hatornot.BaseView
 interface WearHatContract {
 
     interface View : BaseView<Presenter> {
-        fun setLoadingIndicator(active: Boolean)
-        fun setHatStatus(enabled: Boolean)
+        fun setShouldWearHatCheckStatus(enabled: Boolean)
+        fun setShouldWearHatResultStatus(enabled: Boolean)
     }
 
     interface Presenter : BasePresenter {
-        fun loadWeather(zip: Int)
+        fun loadWeather()
     }
 }

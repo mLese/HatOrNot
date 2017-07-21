@@ -2,6 +2,7 @@ package com.commissionsinc.hatornot.wearhat
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.commissionsinc.hatornot.Injection
 import com.commissionsinc.hatornot.R
 import com.commissionsinc.hatornot.util.ActivityUtils
 
@@ -21,6 +22,7 @@ class WearHatActivity : AppCompatActivity() {
         }
 
         // Create Presenter
-
+        mWearHatPresenter = WearHatPresenter(Injection.provideWeatherRepository(applicationContext), wearHatFragment, Injection.provideSchedulerProvider())
+        wearHatFragment.setPresenter(mWearHatPresenter)
     }
 }

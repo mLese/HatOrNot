@@ -1,23 +1,26 @@
 package com.commissionsinc.hatornot.data.source
 
 import com.commissionsinc.hatornot.data.Weather
+import com.commissionsinc.hatornot.data.source.remote.WeatherRemoteDataSource
 import io.reactivex.Observable
 
-object WeatherRepository : WeatherDataSource {
+class WeatherRepository : WeatherDataSource {
 
     lateinit var remoteDataSource: WeatherDataSource
-    lateinit var localDataSource: WeatherDataSource
 
     fun registerRemoteDataSource(remoteDataSource: WeatherDataSource) {
-        this.remoteDataSource = checkNotNull(remoteDataSource)
+        this.remoteDataSource = remoteDataSource
     }
 
-    fun registerLocalDataSource(localDataSource: WeatherDataSource) {
-        this.localDataSource = checkNotNull(localDataSource)
-    }
-    
     override fun getWeather(): Observable<Weather> {
         return remoteDataSource.getWeather()
     }
 
+    companion object {
+        fun getInstance(remoteDataSource: WeatherDataSource): WeatherRepository {
+            val weatherDataSource = WeatherRepository()
+            weatherDataSource.remoteDataSource = remoteDataSource
+            return weatherDataSource
+        }
+    }
 }

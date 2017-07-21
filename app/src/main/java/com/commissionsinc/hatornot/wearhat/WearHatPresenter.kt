@@ -1,19 +1,41 @@
 package com.commissionsinc.hatornot.wearhat
 
+import com.commissionsinc.hatornot.data.Weather
+import com.commissionsinc.hatornot.data.source.WeatherRepository
+import com.commissionsinc.hatornot.util.schedulers.BaseSchedulerProvider
+import io.reactivex.disposables.CompositeDisposable
 
-class WearHatPresenter : WearHatContract.Presenter {
 
+class WearHatPresenter constructor (weatherRepository: WeatherRepository, weatherView: WearHatContract.View, schedulerProvider : BaseSchedulerProvider) : WearHatContract.Presenter {
 
+    val mDisposables = CompositeDisposable()
+    val mWeatherReposity = weatherRepository
+    val mSchedulerProvider = schedulerProvider
+    val mWeatherView = weatherView
 
-    override fun subscribe(): Void {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    init {
+        weatherView.setPresenter(this)
     }
 
-    override fun unsubscribe(): Void {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun subscribe() {
+        loadWeather()
     }
 
-    override fun loadWeather(zip: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun unsubscribe() {
+        mDisposables.dispose()
+    }
+
+    override fun loadWeather() {
+        mDisposables.clear()
+        val disposable =  mWeatherReposity.getWeather()
+                .subscribeOn(mSchedulerProvider.computation())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(this::processWeather)
+        mDisposables.add(disposable)
+    }
+
+    fun processWeather(weather: Weather) {
+        mWeatherView.setShouldWearHatCheckStatus(false)
+        mWeatherView.setShouldWearHatResultStatus(true)
     }
 }
