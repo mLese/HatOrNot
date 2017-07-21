@@ -3,4 +3,5 @@
 
     <string name="should_i_wear_a_hat">Should I Wear A Hat?</string>
     <string name="you_should_wear_a_hat">You should wear a hat</string>
+    <string name="you_should_not_wear_a_hat">You should not wear a hat</string>
 </resources>

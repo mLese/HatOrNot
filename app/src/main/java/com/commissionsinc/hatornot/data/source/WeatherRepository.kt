@@ -5,20 +5,20 @@ import io.reactivex.Observable
 
 class WeatherRepository : WeatherDataSource {
 
-    lateinit var remoteDataSource: WeatherDataSource
+    lateinit var mRemoteDataSource: WeatherDataSource
 
     fun registerRemoteDataSource(remoteDataSource: WeatherDataSource) {
-        this.remoteDataSource = remoteDataSource
+        this.mRemoteDataSource = remoteDataSource
     }
 
     override fun getWeather(): Observable<Weather> {
-        return remoteDataSource.getWeather()
+        return mRemoteDataSource.getWeather()
     }
 
     companion object {
         fun getInstance(remoteDataSource: WeatherDataSource): WeatherRepository {
             val weatherDataSource = WeatherRepository()
-            weatherDataSource.remoteDataSource = remoteDataSource
+            weatherDataSource.mRemoteDataSource = remoteDataSource
             return weatherDataSource
         }
     }

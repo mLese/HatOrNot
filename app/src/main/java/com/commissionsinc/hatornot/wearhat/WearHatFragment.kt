@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.commissionsinc.hatornot.R
 
@@ -16,6 +17,7 @@ class WearHatFragment: Fragment(), WearHatContract.View {
     // Views
     lateinit var mShouldWearHatButton: Button
     lateinit var mShouldWearHatText: TextView
+    lateinit var mLoadingProgresBar: ProgressBar
 
     // Lifecycle
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +25,7 @@ class WearHatFragment: Fragment(), WearHatContract.View {
         val view = inflater.inflate(R.layout.fragment_wear_hat, container, false)
         mShouldWearHatButton = view.findViewById(R.id.should_wear_hat_button)
         mShouldWearHatText = view.findViewById(R.id.should_wear_hat_text)
+        mLoadingProgresBar = view.findViewById(R.id.loading_progress_bar)
 
         mShouldWearHatButton.setOnClickListener({ _ -> mPresenter.subscribe() })
 
@@ -51,12 +54,22 @@ class WearHatFragment: Fragment(), WearHatContract.View {
         mPresenter = presenter
     }
 
-    override fun setShouldWearHatCheckStatus(enabled: Boolean) {
-        mShouldWearHatButton.visibility = if (enabled) View.VISIBLE else View.INVISIBLE
+    override fun setLoading(enabled: Boolean) {
+        if (enabled) {
+            mShouldWearHatButton.isEnabled = false
+            mLoadingProgresBar.visibility = View.VISIBLE
+        } else {
+            mShouldWearHatButton.isEnabled = true
+            mLoadingProgresBar.visibility = View.GONE
+        }
     }
 
     override fun setShouldWearHatResultStatus(enabled: Boolean) {
-        mShouldWearHatText.setText(R.string.you_should_wear_a_hat)
-        mShouldWearHatText.visibility = if (enabled) View.VISIBLE else View.INVISIBLE
+        if (enabled) {
+            mShouldWearHatText.setText(R.string.you_should_wear_a_hat)
+        } else {
+            mShouldWearHatText.setText(R.string.you_should_not_wear_a_hat)
+        }
+        mShouldWearHatText.visibility = View.VISIBLE
     }
 }

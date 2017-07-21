@@ -6,7 +6,9 @@ import com.commissionsinc.hatornot.util.schedulers.BaseSchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
 
-class WearHatPresenter constructor (weatherRepository: WeatherRepository, weatherView: WearHatContract.View, schedulerProvider : BaseSchedulerProvider) : WearHatContract.Presenter {
+class WearHatPresenter(weatherRepository: WeatherRepository,
+                       weatherView: WearHatContract.View,
+                       schedulerProvider : BaseSchedulerProvider) : WearHatContract.Presenter {
 
     val mDisposables = CompositeDisposable()
     val mWeatherReposity = weatherRepository
@@ -27,15 +29,21 @@ class WearHatPresenter constructor (weatherRepository: WeatherRepository, weathe
 
     override fun loadWeather() {
         mDisposables.clear()
+        mWeatherView.setLoading(true)
         val disposable =  mWeatherReposity.getWeather()
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(this::processWeather)
+                .subscribe(this::processWeather,
+                        { _ -> mWeatherView.setLoading(false) },
+                        { mWeatherView.setLoading(false) })
         mDisposables.add(disposable)
     }
 
     fun processWeather(weather: Weather) {
-        mWeatherView.setShouldWearHatCheckStatus(false)
-        mWeatherView.setShouldWearHatResultStatus(true)
+        if (weather.temp > 90 && !weather.cloudy) {
+            mWeatherView.setShouldWearHatResultStatus(true)
+        } else {
+            mWeatherView.setShouldWearHatResultStatus(false)
+        }
     }
 }

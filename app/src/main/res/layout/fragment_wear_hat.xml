@@ -4,17 +4,35 @@
     android:layout_height="match_parent"
     tools:context="com.commissionsinc.hatornot.wearhat.WearHatFragment">
 
-    <Button
-        android:id="@+id/should_wear_hat_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/should_i_wear_a_hat" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/should_wear_hat_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        <Button
+            android:id="@+id/should_wear_hat_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/should_i_wear_a_hat" />
+
+        <TextView
+            android:id="@+id/should_wear_hat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/should_wear_hat_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/loading_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/should_wear_hat_button"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
 
 </FrameLayout>
