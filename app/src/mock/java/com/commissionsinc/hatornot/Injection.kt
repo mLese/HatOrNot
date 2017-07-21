@@ -10,7 +10,7 @@ import com.commissionsinc.hatornot.util.schedulers.SchedulerProvider
 
 object Injection {
     fun provideWeatherRepository(context: Context) : WeatherRepository {
-            return WeatherRepository.getInstance(WeatherRemoteDataSource)
+        return WeatherRepository.getInstance(WeatherRemoteDataSource)
     }
 
     fun provideSchedulerProvider(): BaseSchedulerProvider {

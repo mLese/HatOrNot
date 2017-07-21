@@ -6,17 +6,14 @@ import com.commissionsinc.hatornot.util.schedulers.BaseSchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
 
-class WearHatPresenter(weatherRepository: WeatherRepository,
-                       weatherView: WearHatContract.View,
-                       schedulerProvider : BaseSchedulerProvider) : WearHatContract.Presenter {
+class WearHatPresenter(val mWeatherRepository: WeatherRepository,
+                       val mWeatherView: WearHatContract.View,
+                       val mSchedulerProvider : BaseSchedulerProvider) : WearHatContract.Presenter {
 
     val mDisposables = CompositeDisposable()
-    val mWeatherReposity = weatherRepository
-    val mSchedulerProvider = schedulerProvider
-    val mWeatherView = weatherView
 
     init {
-        weatherView.setPresenter(this)
+        mWeatherView.setPresenter(this)
     }
 
     override fun subscribe() {
@@ -30,7 +27,7 @@ class WearHatPresenter(weatherRepository: WeatherRepository,
     override fun loadWeather() {
         mDisposables.clear()
         mWeatherView.setLoading(true)
-        val disposable =  mWeatherReposity.getWeather()
+        val disposable =  mWeatherRepository.getWeather()
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(this::processWeather,
